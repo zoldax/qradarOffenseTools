@@ -76,13 +76,17 @@ def write_offenses_to_json(offenses, filename):
         json.dump(offenses, jsonfile, indent=4)
 
 def main():
-    parser = argparse.ArgumentParser(description="Display QRadar offenses and system info.")
+    parser = argparse.ArgumentParser(description="Display QRadar offenses and system info by Abakus Sécurité / Pascal Weber (zoldax).")
     parser.add_argument('--offense', action='store_true', help='Display QRadar offenses')
     parser.add_argument('--version', action='store_true', help='Display QRadar system information')
     parser.add_argument('--format', choices=['csv', 'json'], help='Output format for offenses')
     parser.add_argument('--output', type=str, help='Output file name for offenses')
 
     args = parser.parse_args()
+
+    if not any(vars(args).values()):
+        parser.print_help()
+        return
 
     if args.offense:
         offenses = get_offenses()
