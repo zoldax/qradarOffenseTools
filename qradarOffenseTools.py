@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-offenseview.py
+qradarOffenseTools.py
 
 Copyright 2024 Pascal Weber (zoldax) / Abakus Sécurité
 
@@ -26,7 +26,7 @@ Description:
     behavior.
 
 Usage:
-    python offenseview.py [OPTIONS]
+    python qradarOffenseTools.py [OPTIONS]
 
 Options:
     --offense              Display QRadar offenses.
@@ -35,9 +35,9 @@ Options:
     --output FILE          Output file name for offenses.
 
 Examples:
-    python offenseview.py --offense
-    python offenseview.py --offense --format csv --output offenses.csv
-    python offenseview.py --version
+    python qradarOffenseTools.py --offense
+    python qradarOffenseTools.py --offense --format csv --output offenses.csv
+    python qradarOffenseTools.py --version
 """
 
 import argparse
