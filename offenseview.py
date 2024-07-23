@@ -20,16 +20,19 @@
 """
 
 import argparse
-from qradarzoldaxlib import make_request, print_qradar_version
+from qradarzoldaxlib import make_request, print_qradar_version, read_config, logger
+
+# Ensure config is read
+config = read_config()
 
 def get_offenses() -> dict:
     """
     Fetch the offenses from the `/siem/offenses` API endpoint in QRadar.
-
+    
     :return: JSON response as a dict containing offenses if successful,
              empty dict otherwise.
     """
-    url = f"https://{config['ip_QRadar']}/siem/offenses"
+    url = f"https://{config['ip_QRadar']}/api/siem/offenses"
     return make_request(url)
 
 def print_offenses():
@@ -46,9 +49,9 @@ def main():
     parser = argparse.ArgumentParser(description="Display QRadar offenses and system info.")
     parser.add_argument('--offense', action='store_true', help='Display QRadar offenses')
     parser.add_argument('--version', action='store_true', help='Display QRadar system information')
-
+    
     args = parser.parse_args()
-
+    
     if args.offense:
         print_offenses()
     if args.version:
