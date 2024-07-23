@@ -1,22 +1,43 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 """
-   offenseview.py
+offenseview.py
 
-   Copyright 2024 Pascal Weber (zoldax) / Abakus Sécurité
+Copyright 2024 Pascal Weber (zoldax) / Abakus Sécurité
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
+Description:
+    This script fetches and displays QRadar offenses, providing options
+    to output the data in CSV or JSON format. It also allows users to 
+    display QRadar system information. The script is designed to be 
+    executed from the command line with various arguments to control its 
+    behavior.
+
+Usage:
+    python offenseview.py [OPTIONS]
+
+Options:
+    --offense              Display QRadar offenses.
+    --version              Display QRadar system information.
+    --format [csv|json]    Output format for offenses (csv or json).
+    --output FILE          Output file name for offenses.
+
+Examples:
+    python offenseview.py --offense
+    python offenseview.py --offense --format csv --output offenses.csv
+    python offenseview.py --version
 """
 
 import argparse
@@ -28,22 +49,36 @@ from qradarzoldaxlib import make_request, print_qradar_version, read_config, log
 # Ensure config is read
 config = read_config()
 
-def get_offenses() -> dict:
+def get_offenses():
     """
     Fetch the offenses from the `/siem/offenses` API endpoint in QRadar.
 
-    :return: JSON response as a dict containing offenses if successful,
-             empty dict otherwise.
+    Returns:
+        dict: JSON response as a dictionary containing offenses if successful,
+              empty dictionary otherwise.
     """
     url = f"https://{config['ip_QRadar']}/api/siem/offenses"
     return make_request(url)
 
 def format_timestamp(epoch_millis):
-    """Convert epoch milliseconds to a human-readable datetime string."""
+    """
+    Convert epoch milliseconds to a human-readable datetime string.
+
+    Args:
+        epoch_millis (int): The epoch time in milliseconds.
+
+    Returns:
+        str: Formatted datetime string.
+    """
     return datetime.fromtimestamp(epoch_millis / 1000).strftime('%Y-%m-%d %H:%M:%S')
 
 def print_offenses(offenses):
-    """Print QRadar offenses to the console."""
+    """
+    Print QRadar offenses to the console.
+
+    Args:
+        offenses (list): List of offenses dictionaries.
+    """
     print("QRadar Offenses:")
     if offenses:
         for offense in offenses:
@@ -63,7 +98,13 @@ Last Updated Time: {format_timestamp(offense.get('last_updated_time')) if offens
         print("No offenses found or error occurred while fetching offenses.")
 
 def write_offenses_to_csv(offenses, filename):
-    """Write QRadar offenses to a CSV file."""
+    """
+    Write QRadar offenses to a CSV file.
+
+    Args:
+        offenses (list): List of offenses dictionaries.
+        filename (str): The name of the output CSV file.
+    """
     keys = offenses[0].keys() if offenses else []
     with open(filename, 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=keys)
@@ -71,11 +112,20 @@ def write_offenses_to_csv(offenses, filename):
         writer.writerows(offenses)
 
 def write_offenses_to_json(offenses, filename):
-    """Write QRadar offenses to a JSON file."""
+    """
+    Write QRadar offenses to a JSON file.
+
+    Args:
+        offenses (list): List of offenses dictionaries.
+        filename (str): The name of the output JSON file.
+    """
     with open(filename, 'w') as jsonfile:
         json.dump(offenses, jsonfile, indent=4)
 
 def main():
+    """
+    Main function to parse arguments and initiate the display or export of QRadar offenses.
+    """
     parser = argparse.ArgumentParser(description="Display QRadar offenses and system info by Abakus Sécurité / Pascal Weber (zoldax).")
     parser.add_argument('--offense', action='store_true', help='Display QRadar offenses')
     parser.add_argument('--version', action='store_true', help='Display QRadar system information')
