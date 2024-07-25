@@ -1,0 +1,9 @@
+{
+    "ip_QRadar": "qradarlab.zoldax.lan",
+    "auth": "85af61a8-ee54-4bed-b984-bf08d396f5fb",
+    "Version": "15.0",
+    "Accept": "application/json",
+    "verify_ssl": "True",        
+    "ssl_cert_path": "./serverchain.pem",
+    "safety": "on"
+}
