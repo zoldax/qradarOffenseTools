@@ -1,7 +1,8 @@
 # 🛠️ QRadar Offense Tools
 
-## 📌 Details
 This repository contains `qradarOffenseTools.py`, a Python script for fetching and displaying QRadar offenses. It provides options to output the data in CSV or JSON format and also allows users to display QRadar system information.
+
+[![License](https://img.shields.io/github/license/zoldax/qradarOffenseTools?color=44CC11)](LICENSE)  [![Commit](https://img.shields.io/github/commit-activity/t/zoldax/qradarOffenseTools)](https://github.com/zoldax/qradarOffenseTools/commits/)  [![Views](https://hits.sh/github.com/zoldax/qradarOffenseTools.svg)](https://hits.sh/github.com/zoldax/qradarOffenseTools/) [![Last commit](https://img.shields.io/github/last-commit/zoldax/qradarOffenseTools/main)](https://github.com/zoldax/qradarOffenseTools/commits/main)
 
 ## 📖 Description
 `qradarOffenseTools.py` is a command-line tool designed to interact with the QRadar API to retrieve and display offense data. The tool can output the data in both CSV and JSON formats for further analysis or reporting. Additionally, it can display QRadar system information.
